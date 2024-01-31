@@ -27,6 +27,9 @@ namespace Simple_Inventory_Management_System
                     case "1":
                         AddProduct(inventory);
                         break;
+                    case "2":
+                        inventory.ViewAllProducts();
+                        break;
                     case "0":
                         menu = false;
                         break;
@@ -35,11 +38,11 @@ namespace Simple_Inventory_Management_System
                         break;
                 }
             }
-
             Console.WriteLine("Exiting Program...");
         }
 
-        static void AddProduct(Inventory inventory) 
+       
+        private static void AddProduct(Inventory inventory) 
         {
             Console.Write("Enter product name: ");
             string productName = Console.ReadLine();

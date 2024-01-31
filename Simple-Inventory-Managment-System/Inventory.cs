@@ -18,5 +18,13 @@ namespace Simple_Inventory_Managment_System
         {
             products.Add(product);
         }
+        public void ViewAllProducts()
+        {
+            Console.WriteLine("\n");
+            foreach (Product product in products)
+            {
+                Console.WriteLine($"Name: {product.name}, Price: {product.price}, Quantity: {product.quantity}");
+            }
+        }
     }
 }
