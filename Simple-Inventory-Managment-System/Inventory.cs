@@ -14,5 +14,9 @@ namespace Simple_Inventory_Managment_System
         {
             products = new List<Product>();
         }
+        public void AddProduct(Product product)
+        {
+            products.Add(product);
+        }
     }
 }
