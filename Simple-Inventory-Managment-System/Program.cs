@@ -16,9 +16,11 @@ namespace Simple_Inventory_Management_System
             while (menu)
             {
                 Console.WriteLine("\nInventory Management System");
-                Console.WriteLine("1. Add a product");
+                Console.WriteLine("1. Add a Product");
+                Console.WriteLine("2. View All Products");
+                Console.WriteLine("3. Edit a product");
                 Console.WriteLine("0. Exit");
-                Console.Write("Enter an option (1-1): ");
+                Console.Write("Enter an option (1-4): ");
 
                 string option = Console.ReadLine();
 
@@ -29,6 +31,9 @@ namespace Simple_Inventory_Management_System
                         break;
                     case "2":
                         inventory.ViewAllProducts();
+                        break;
+                    case "3":
+                        EditProduct(inventory);
                         break;
                     case "0":
                         menu = false;
@@ -41,7 +46,13 @@ namespace Simple_Inventory_Management_System
             Console.WriteLine("Exiting Program...");
         }
 
-       
+        private static void EditProduct(Inventory inventory)
+        {
+            Console.Write("Enter product name: ");
+            string productName = Console.ReadLine();
+            inventory.EditProduct(productName);
+        }
+
         private static void AddProduct(Inventory inventory) 
         {
             Console.Write("Enter product name: ");

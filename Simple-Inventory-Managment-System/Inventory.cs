@@ -26,5 +26,41 @@ namespace Simple_Inventory_Managment_System
                 Console.WriteLine($"Name: {product.name}, Price: {product.price}, Quantity: {product.quantity}");
             }
         }
+        public void EditProduct(string name)
+        {
+            Product productToUpdate = products.Find(product => product.name == name);
+            if (productToUpdate != null)
+            {
+                Console.WriteLine("What field do you wish to change?");
+                Console.WriteLine("1- Name\n2- Price\n3- Quantity \n");
+                Console.Write("Enter an option (1-3): ");
+                string option = Console.ReadLine();
+
+                switch (option)
+                {
+                    case "1":
+                        Console.WriteLine("Write the new name for the product: ");
+                        string newName = Console.ReadLine();
+                        productToUpdate.name = newName;
+                        break;
+                    case "2":
+                        Console.WriteLine("Write the new price for the product: ");
+                        string newPrice = Console.ReadLine();
+                        productToUpdate.price = double.Parse(newPrice, System.Globalization.CultureInfo.InvariantCulture);
+                        break;
+                    case "3":
+                        Console.WriteLine("Write the new quantity for the product: ");
+                        string newQuantity = Console.ReadLine();
+                        productToUpdate.quantity = int.Parse(newQuantity, System.Globalization.CultureInfo.InvariantCulture);
+                        break;
+                    default:
+                        Console.WriteLine("Invalid choice option");
+                        break;
+                }
+                Console.WriteLine($"Product updated to --> Name: {productToUpdate.name}, Price: {productToUpdate.price}, Quantity: {productToUpdate.quantity}");
+            }
+            else Console.WriteLine("Product not found");
+            
+        }
     }
 }
