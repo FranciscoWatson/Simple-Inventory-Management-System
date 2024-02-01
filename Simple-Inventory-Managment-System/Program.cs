@@ -35,6 +35,7 @@ namespace Simple_Inventory_Management_System
                             AddProduct(inventory);
                             break;
                         case 2:
+                            Console.WriteLine("\n");
                             inventory.ViewAllProducts();
                             break;
                         case 3:
