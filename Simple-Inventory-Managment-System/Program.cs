@@ -3,6 +3,7 @@
 using Simple_Inventory_Managment_System;
 
 
+
 namespace Simple_Inventory_Management_System
 {
     public class Program
@@ -24,32 +25,38 @@ namespace Simple_Inventory_Management_System
                 Console.WriteLine("0. Exit");
                 Console.Write("Enter an option (1-5): ");
 
-                string option = Console.ReadLine();
+                string input = Console.ReadLine();
 
-                switch (option)
+                if (int.TryParse(input, out int option))
                 {
-                    case "1":
-                        AddProduct(inventory);
-                        break;
-                    case "2":
-                        inventory.ViewAllProducts();
-                        break;
-                    case "3":
-                        EditProduct(inventory);
-                        break;
-                    case "4":
-                        DeleteProduct(inventory);
-                        break;
-                    case "5":
-                        SearchProduct(inventory);
-                        break;
-                    case "0":
-                        menu = false;
-                        break;
-                    default:
-                        Console.WriteLine("Invalid choice option");
-                        break;
+                    switch (option)
+                    {
+                        case 1:
+                            AddProduct(inventory);
+                            break;
+                        case 2:
+                            inventory.ViewAllProducts();
+                            break;
+                        case 3:
+                            EditProduct(inventory);
+                            break;
+                        case 4:
+                            DeleteProduct(inventory);
+                            break;
+                        case 5:
+                            SearchProduct(inventory);
+                            break;
+                        case 0:
+                            menu = false;
+                            break;
+                        default:
+                            Console.WriteLine("Invalid choice option");
+                            break;
+                    }
                 }
+                else Console.WriteLine("Invalid choice option");
+
+
             }
             Console.WriteLine("Exiting Program...");
         }
