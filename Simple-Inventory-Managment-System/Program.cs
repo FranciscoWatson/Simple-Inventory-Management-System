@@ -87,7 +87,7 @@ namespace Simple_Inventory_Management_System
             Console.Write("Enter product name: ");
             string productName = Console.ReadLine();
             Console.Write("Enter product price: ");
-            double productPrice = Convert.ToDouble(Console.ReadLine());
+            decimal productPrice = Convert.ToDecimal(Console.ReadLine());
             Console.Write("Enter product quantity: ");
             int productQuantity = Convert.ToInt32(Console.ReadLine());
             Product newProduct = new Product(productName, productPrice, productQuantity);

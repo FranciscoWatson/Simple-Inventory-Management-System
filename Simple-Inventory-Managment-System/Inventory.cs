@@ -51,7 +51,7 @@ namespace Simple_Inventory_Managment_System
                         case 2:
                             Console.WriteLine("Write the new price for the product: ");
                             string newPrice = Console.ReadLine();
-                            productToUpdate.price = double.Parse(newPrice, System.Globalization.CultureInfo.InvariantCulture);                          
+                            productToUpdate.price = decimal.Parse(newPrice, System.Globalization.CultureInfo.InvariantCulture);                          
                             break;
                         case 3:
                             Console.WriteLine("Write the new quantity for the product: ");

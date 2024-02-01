@@ -6,7 +6,7 @@ namespace TestsSystem_Inventory_Managment_System
     public class InventoryTests
     {
         [Fact]
-        public void AddAProductShouldMakeTheProductsListBigger()
+        public void AddProductShouldAddProductsToList()
         {
             Inventory inventory = new Inventory();
             Product product = new Product("Iphone 15", 1000, 2);
@@ -14,6 +14,8 @@ namespace TestsSystem_Inventory_Managment_System
             inventory.AddProduct(product);
 
             Assert.Equal(1, inventory.products.Count);
+            Assert.Equal("Iphone 15", inventory.products[0].name);
+
         }
         [Fact]
         public void AddMultipleProductShouldMakeTheProductsListBigger()
@@ -27,5 +29,6 @@ namespace TestsSystem_Inventory_Managment_System
 
             Assert.Equal(2, inventory.products.Count);
         }
+
     }
 }
