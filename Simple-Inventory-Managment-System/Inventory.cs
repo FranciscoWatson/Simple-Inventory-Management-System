@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Simple_Inventory_Managment_System
 {
@@ -61,6 +62,17 @@ namespace Simple_Inventory_Managment_System
             }
             else Console.WriteLine("Product not found");
             
+        }
+
+        public void DeleteProduct(string productName)
+        {
+            Product productToDelete = products.Find(product => product.name == productName);
+            if (productToDelete != null)
+            {
+                products.Remove(productToDelete);
+                Console.WriteLine("Product deleted");
+            }
+            else Console.WriteLine("Product not found");
         }
     }
 }
