@@ -74,5 +74,15 @@ namespace Simple_Inventory_Managment_System
             }
             else Console.WriteLine("Product not found");
         }
+
+        public void SearchProduct(string productName)
+        {
+            Product product = products.Find(product => product.name == productName);
+            if (product != null)
+            {
+                Console.WriteLine($"Name: {product.name}, Price: {product.price}, Quantity: {product.quantity}");
+            }
+            else Console.WriteLine("Product not found");
+        }
     }
 }

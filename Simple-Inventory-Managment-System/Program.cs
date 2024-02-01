@@ -20,8 +20,9 @@ namespace Simple_Inventory_Management_System
                 Console.WriteLine("2. View All Products");
                 Console.WriteLine("3. Edit a product");
                 Console.WriteLine("4. Delete a product");
+                Console.WriteLine("5. Search a product");
                 Console.WriteLine("0. Exit");
-                Console.Write("Enter an option (1-4): ");
+                Console.Write("Enter an option (1-5): ");
 
                 string option = Console.ReadLine();
 
@@ -39,6 +40,9 @@ namespace Simple_Inventory_Management_System
                     case "4":
                         DeleteProduct(inventory);
                         break;
+                    case "5":
+                        SearchProduct(inventory);
+                        break;
                     case "0":
                         menu = false;
                         break;
@@ -48,6 +52,13 @@ namespace Simple_Inventory_Management_System
                 }
             }
             Console.WriteLine("Exiting Program...");
+        }
+
+        private static void SearchProduct(Inventory inventory)
+        {
+            Console.Write("Enter product name: ");
+            string productName = Console.ReadLine();
+            inventory.SearchProduct(productName);
         }
 
         private static void DeleteProduct(Inventory inventory)
