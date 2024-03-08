@@ -1,4 +1,6 @@
-﻿namespace Simple_Inventory_Managment_System;
+﻿using Microsoft.Data.SqlClient;
+
+namespace Simple_Inventory_Managment_System;
 
 public class ProductRepository
 {
@@ -16,11 +18,39 @@ public class ProductRepository
 
     public void ViewAllProducts()
     {
-        foreach (Product product in Products)
+        List<Product> products = new List<Product>();
+        using (SqlConnection connection = new SqlConnection(ConnectionString))
         {
-            Console.WriteLine($"Name: {product.Name}, Price: {product.Price}, Quantity: {product.Quantity}");
+            connection.Open();
+
+            string query = "SELECT * FROM Products";
+
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+   
+                        int productId = (int)reader["ProductID"];
+                        string name = reader["Name"] != DBNull.Value ? (string)reader["Name"] : null;
+                        decimal price = (decimal)reader["Price"];
+                        int quantity = (int)reader["Quantity"];
+
+                        Product product = new Product(productId, name, price, quantity);
+                        products.Add(product);
+                    }
+                }
+            }
+        }
+        
+        foreach (var product in products)
+        {
+            Console.WriteLine($"ProductId: {product.ProductId}, Name: {product.Name}, Price: {product.Price}, Quantity: {product.Quantity}");
         }
     }
+        
+    
 
     public void EditProduct(string name)
     {
