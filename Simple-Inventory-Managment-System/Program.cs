@@ -1,5 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using System.Reflection;
+using Microsoft.Extensions.Configuration;
 using Simple_Inventory_Managment_System;
 
 
@@ -10,7 +12,15 @@ namespace Simple_Inventory_Management_System
     {
         static void Main()
         {
-            ProductRepository productRepository = new ProductRepository();
+
+            IConfiguration configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
+                
+            var connectionString = configuration.GetConnectionString("SqlServerConnection");
+            ProductRepository productRepository = new ProductRepository(connectionString);
+
             Inventory inventory = new Inventory(productRepository);
 
             bool menu = true;

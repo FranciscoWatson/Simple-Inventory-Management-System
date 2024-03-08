@@ -3,6 +3,12 @@
 public class ProductRepository
 {
     public List<Product> Products = new List<Product>();
+    private readonly string ConnectionString;
+
+    public ProductRepository(string connectionString)
+    {
+        ConnectionString = connectionString;
+    }
     public void AddProduct(Product product)
     {
         Products.Add(product);
