@@ -15,9 +15,9 @@ namespace TestsSystem_Inventory_Managment_System
             Product product = new Product(expectedName, expectedPrice, expectedQuantity);
 
 
-            Assert.Equal(expectedName, product.name);
-            Assert.Equal(expectedPrice, product.price);
-            Assert.Equal(expectedQuantity, product.quantity);
+            Assert.Equal(expectedName, product.Name);
+            Assert.Equal(expectedPrice, product.Price);
+            Assert.Equal(expectedQuantity, product.Quantity);
         }
     }
 }

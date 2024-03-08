@@ -10,26 +10,26 @@ namespace Simple_Inventory_Managment_System
 {
     public class Inventory
     {
-        public List<Product> products { get; set; }
+        public List<Product> Products { get; set; }
 
         public Inventory() 
         {
-            products = new List<Product>();
+            Products = new List<Product>();
         }
         public void AddProduct(Product product)
         {
-            products.Add(product);
+            Products.Add(product);
         }
         public void ViewAllProducts()
         {
-            foreach (Product product in products)
+            foreach (Product product in Products)
             {
-                Console.WriteLine($"Name: {product.name}, Price: {product.price}, Quantity: {product.quantity}");
+                Console.WriteLine($"Name: {product.Name}, Price: {product.Price}, Quantity: {product.Quantity}");
             }
         }
         public void EditProduct(string name)
         {
-            Product productToUpdate = products.Find(product => product.name == name);
+            Product productToUpdate = Products.Find(product => product.Name == name);
             if (productToUpdate != null)
             {
                 Console.WriteLine("What field do you wish to change?");
@@ -45,23 +45,23 @@ namespace Simple_Inventory_Managment_System
                         case 1:
                             Console.WriteLine("Write the new name for the product: ");
                             string newName = Console.ReadLine();
-                            productToUpdate.name = newName;                           
+                            productToUpdate.Name = newName;                           
                             break;
                         case 2:
                             Console.WriteLine("Write the new price for the product: ");
                             string newPrice = Console.ReadLine();
-                            productToUpdate.price = decimal.Parse(newPrice, System.Globalization.CultureInfo.InvariantCulture);                          
+                            productToUpdate.Price = decimal.Parse(newPrice, System.Globalization.CultureInfo.InvariantCulture);                          
                             break;
                         case 3:
                             Console.WriteLine("Write the new quantity for the product: ");
                             string newQuantity = Console.ReadLine();
-                            productToUpdate.quantity = int.Parse(newQuantity, System.Globalization.CultureInfo.InvariantCulture);                            
+                            productToUpdate.Quantity = int.Parse(newQuantity, System.Globalization.CultureInfo.InvariantCulture);                            
                             break;
                         default:
                             Console.WriteLine("Invalid choice option");
                             return;
                     }
-                    Console.WriteLine($"Product updated to --> Name: {productToUpdate.name}, Price: {productToUpdate.price}, Quantity: {productToUpdate.quantity}");
+                    Console.WriteLine($"Product updated to --> Name: {productToUpdate.Name}, Price: {productToUpdate.Price}, Quantity: {productToUpdate.Quantity}");
                 }
                 else Console.WriteLine("Invalid choice option");
 
@@ -74,10 +74,10 @@ namespace Simple_Inventory_Managment_System
 
         public void DeleteProduct(string productName)
         {
-            Product productToDelete = products.Find(product => product.name == productName);
+            Product productToDelete = Products.Find(product => product.Name == productName);
             if (productToDelete != null)
             {
-                products.Remove(productToDelete);
+                Products.Remove(productToDelete);
                 Console.WriteLine("Product deleted");
             }
             else Console.WriteLine("Product not found");
@@ -85,10 +85,10 @@ namespace Simple_Inventory_Managment_System
 
         public void SearchProduct(string productName)
         {
-            Product product = products.Find(product => product.name == productName);
+            Product product = Products.Find(product => product.Name == productName);
             if (product != null)
             {
-                Console.WriteLine($"Name: {product.name}, Price: {product.price}, Quantity: {product.quantity}");
+                Console.WriteLine($"Name: {product.Name}, Price: {product.Price}, Quantity: {product.Quantity}");
             }
             else Console.WriteLine("Product not found");
         }
