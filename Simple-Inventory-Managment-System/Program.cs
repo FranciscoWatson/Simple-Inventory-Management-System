@@ -10,7 +10,8 @@ namespace Simple_Inventory_Management_System
     {
         static void Main()
         {
-            Inventory inventory = new Inventory();
+            ProductRepository productRepository = new ProductRepository();
+            Inventory inventory = new Inventory(productRepository);
 
             bool menu = true;
 
