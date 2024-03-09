@@ -25,3 +25,9 @@ bin/
 *.userprefs
 *.suo
 *.docstates
+
+# JetBrains files
+.idea/
+*.sln.iml
+*.ipr
+*.iws

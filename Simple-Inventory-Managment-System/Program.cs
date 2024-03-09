@@ -1,5 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using System.Reflection;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using Simple_Inventory_Managment_System;
 
 
@@ -10,7 +13,23 @@ namespace Simple_Inventory_Management_System
     {
         static void Main()
         {
-            Inventory inventory = new Inventory();
+
+            IConfiguration configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
+
+            var connectionString = configuration.GetConnectionString("SqlServerConnection");
+
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+
+            ProductRepository productRepository = new ProductRepository(sqlConnection);
+
+            ProductPrintingService productPrintingService = new ProductPrintingService();
+
+            Inventory inventory = new Inventory(productRepository, productPrintingService);
+
+
 
             bool menu = true;
 
@@ -36,7 +55,7 @@ namespace Simple_Inventory_Management_System
                             break;
                         case 2:
                             Console.WriteLine("\n");
-                            inventory.ViewAllProducts();
+                            ViewAllProducts(inventory);
                             break;
                         case 3:
                             EditProduct(inventory);
@@ -64,35 +83,61 @@ namespace Simple_Inventory_Management_System
 
         private static void SearchProduct(Inventory inventory)
         {
-            Console.Write("Enter product name: ");
-            string productName = Console.ReadLine();
+            string productName = GetProductNameFromUser();
             inventory.SearchProduct(productName);
         }
 
         private static void DeleteProduct(Inventory inventory)
         {
             Console.Write("Enter product name: ");
-            string productName = Console.ReadLine();
+            string productName = GetProductNameFromUser();
             inventory.DeleteProduct(productName);
         }
 
         private static void EditProduct(Inventory inventory)
         {
-            Console.Write("Enter product name: ");
-            string productName = Console.ReadLine();
+            string productName = GetProductNameFromUser();
             inventory.EditProduct(productName);
         }
+        private static string GetProductNameFromUser()
+        {
+            Console.Write("Enter product name: ");
+            return Console.ReadLine();
+        }
 
-        private static void AddProduct(Inventory inventory) 
+        private static void ViewAllProducts(Inventory inventory)
+        {
+
+            inventory.ViewAllProducts();
+        }
+
+        private static void AddProduct(Inventory inventory)
+        {
+
+            Product newProduct = GetProductFromUserInput();
+            inventory.AddProduct(newProduct);
+        }
+
+        private static Product GetProductFromUserInput()
         {
             Console.Write("Enter product name: ");
             string productName = Console.ReadLine();
+
             Console.Write("Enter product price: ");
-            decimal productPrice = Convert.ToDecimal(Console.ReadLine());
+            decimal productPrice;
+            while (!decimal.TryParse(Console.ReadLine(), out productPrice))
+            {
+                Console.WriteLine("Invalid input. Please enter a valid decimal value for the price.");
+            }
+
             Console.Write("Enter product quantity: ");
-            int productQuantity = Convert.ToInt32(Console.ReadLine());
-            Product newProduct = new Product(productName, productPrice, productQuantity);
-            inventory.AddProduct(newProduct);
+            int productQuantity;
+            while (!int.TryParse(Console.ReadLine(), out productQuantity))
+            {
+                Console.WriteLine("Invalid input. Please enter a valid integer value for the quantity.");
+            }
+
+            return new Product(productName, productPrice, productQuantity);
         }
     }
 }

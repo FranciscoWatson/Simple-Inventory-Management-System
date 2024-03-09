@@ -15,10 +15,10 @@ namespace TestsSystem_Inventory_Managment_System
 
             inventory.AddProduct(product);
 
-            Assert.Equal(1, inventory.products.Count);
-            Assert.Equal("Iphone 15", inventory.products[0].name);
-            Assert.Equal(10.14m, inventory.products[0].price);
-            Assert.Equal(2, inventory.products[0].quantity);
+            Assert.Equal(1, inventory.Products.Count);
+            Assert.Equal("Iphone 15", inventory.Products[0].Name);
+            Assert.Equal(10.14m, inventory.Products[0].Price);
+            Assert.Equal(2, inventory.Products[0].Quantity);
         }
 
         [Fact]
@@ -31,7 +31,7 @@ namespace TestsSystem_Inventory_Managment_System
             inventory.AddProduct(product);
             inventory.AddProduct(product2);
 
-            Assert.Equal(2, inventory.products.Count);
+            Assert.Equal(2, inventory.Products.Count);
         }
 
         [Fact]
@@ -46,8 +46,8 @@ namespace TestsSystem_Inventory_Managment_System
 
 
             
-            string expectedOutput = $"Name: {product.name}, Price: {product.price}, Quantity: {product.quantity}\r\n" +
-                                    $"Name: {product2.name}, Price: {product2.price}, Quantity: {product2.quantity}\r\n";
+            string expectedOutput = $"Name: {product.Name}, Price: {product.Price}, Quantity: {product.Quantity}\r\n" +
+                                    $"Name: {product2.Name}, Price: {product2.Price}, Quantity: {product2.Quantity}\r\n";
             StringWriter sw = new StringWriter();
             Console.SetOut(sw);
             inventory.ViewAllProducts();
@@ -68,7 +68,7 @@ namespace TestsSystem_Inventory_Managment_System
             inventory.DeleteProduct("Iphone 15");
 
 
-            Assert.Equal(0, inventory.products.Count);
+            Assert.Equal(0, inventory.Products.Count);
         }
 
     }
