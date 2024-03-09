@@ -160,13 +160,21 @@ public class ProductRepository
 
     public void DeleteProduct(string productName)
     {
-        Product productToDelete = Products.Find(product => product.Name == productName);
-        if (productToDelete != null)
+        using (SqlConnection connection = new SqlConnection(ConnectionString))
         {
-            Products.Remove(productToDelete);
-            Console.WriteLine("Product deleted");
+            connection.Open();
+
+            string query = "DELETE FROM Products WHERE Name = @ProductName";
+
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.CommandText = query;
+
+                command.Parameters.AddWithValue("ProductName", productName);
+
+                command.ExecuteNonQuery();
+            }
         }
-        else Console.WriteLine("Product not found");
     }
 
     public void SearchProduct(string productName)
