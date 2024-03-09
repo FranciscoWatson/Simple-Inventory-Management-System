@@ -18,7 +18,7 @@ namespace Simple_Inventory_Management_System
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
-                
+
             var connectionString = configuration.GetConnectionString("SqlServerConnection");
 
             SqlConnection sqlConnection = new SqlConnection(connectionString);
@@ -55,7 +55,7 @@ namespace Simple_Inventory_Management_System
                             break;
                         case 2:
                             Console.WriteLine("\n");
-                            ViewAllProducts(inventory, productPrintingService);
+                            ViewAllProducts(inventory);
                             break;
                         case 3:
                             EditProduct(inventory);
@@ -64,7 +64,7 @@ namespace Simple_Inventory_Management_System
                             DeleteProduct(inventory);
                             break;
                         case 5:
-                            SearchProduct(inventory, productPrintingService);
+                            SearchProduct(inventory);
                             break;
                         case 0:
                             menu = false;
@@ -81,7 +81,7 @@ namespace Simple_Inventory_Management_System
             Console.WriteLine("Exiting Program...");
         }
 
-        private static void SearchProduct(Inventory inventory, ProductPrintingService productPrintingService)
+        private static void SearchProduct(Inventory inventory)
         {
             string productName = GetProductNameFromUser();
             inventory.SearchProduct(productName);
@@ -105,13 +105,13 @@ namespace Simple_Inventory_Management_System
             return Console.ReadLine();
         }
 
-        private static void ViewAllProducts(Inventory inventory, ProductPrintingService productPrintingService)
+        private static void ViewAllProducts(Inventory inventory)
         {
 
             inventory.ViewAllProducts();
         }
 
-        private static void AddProduct(Inventory inventory) 
+        private static void AddProduct(Inventory inventory)
         {
 
             Product newProduct = GetProductFromUserInput();
