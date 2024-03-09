@@ -1,9 +1,11 @@
 ﻿using Microsoft.Data.SqlClient;
+using Simple_Inventory_Managment_System.Repository_Pattern;
 using System.Data;
+using System.Data.Common;
 
 namespace Simple_Inventory_Managment_System;
 
-public class ProductRepository
+public class ProductRepository : IProductRepository
 {
     private readonly SqlConnection _connection;
 
