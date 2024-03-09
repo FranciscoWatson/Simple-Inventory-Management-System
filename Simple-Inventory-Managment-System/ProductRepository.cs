@@ -5,69 +5,69 @@ namespace Simple_Inventory_Managment_System;
 
 public class ProductRepository
 {
-    private readonly string ConnectionString;
-    
-    public ProductRepository(string connectionString)
+    private readonly SqlConnection _connection;
+
+    public ProductRepository(SqlConnection connection)
     {
-        ConnectionString = connectionString;
+        _connection = connection;
     }
     public void AddProduct(Product product)
     {
 
-        using (SqlConnection connection = new SqlConnection(ConnectionString))
+        _connection.Open();
+
+        string query = $"INSERT INTO Products VALUES(@Name, @Price, @Quantity)";
+
+        using (SqlCommand command = new SqlCommand(query, _connection))
         {
-            connection.Open();
+            command.Parameters.AddWithValue("Name", product.Name);
+            command.Parameters.AddWithValue("Price", product.Price);
+            command.Parameters.AddWithValue("Quantity", product.Quantity);
 
-            string query = $"INSERT INTO Products VALUES(@Name, @Price, @Quantity)";
-
-            using (SqlCommand command = new SqlCommand(query, connection))
-            {
-                command.Parameters.AddWithValue("Name", product.Name);
-                command.Parameters.AddWithValue("Price", product.Price);
-                command.Parameters.AddWithValue("Quantity", product.Quantity);
-
-                command.ExecuteNonQuery();
-            }
+            command.ExecuteNonQuery();
         }
+        _connection.Close();
+
+
     }
 
     public List<Product> ViewAllProducts()
     {
         List<Product> products = new List<Product>();
-        using (SqlConnection connection = new SqlConnection(ConnectionString))
+
+        _connection.Open();
+
+        string query = "SELECT * FROM Products";
+
+        using (SqlCommand command = new SqlCommand(query, _connection))
         {
-            connection.Open();
-
-            string query = "SELECT * FROM Products";
-
-            using (SqlCommand command = new SqlCommand(query, connection))
+            using (SqlDataReader reader = command.ExecuteReader())
             {
-                using (SqlDataReader reader = command.ExecuteReader())
+                while (reader.Read())
                 {
-                    while (reader.Read())
-                    {
-   
-                        int productId = (int)reader["ProductID"];
-                        string name = reader["Name"] != DBNull.Value ? (string)reader["Name"] : null;
-                        decimal price = (decimal)reader["Price"];
-                        int quantity = (int)reader["Quantity"];
 
-                        Product product = new Product(productId, name, price, quantity);
-                        products.Add(product);
-                    }
+                    int productId = (int)reader["ProductID"];
+                    string name = reader["Name"] != DBNull.Value ? (string)reader["Name"] : null;
+                    decimal price = (decimal)reader["Price"];
+                    int quantity = (int)reader["Quantity"];
+
+                    Product product = new Product(productId, name, price, quantity);
+                    products.Add(product);
                 }
             }
         }
-        
+        _connection.Close();
+
+
         return products;
     }
-        
-    
+
+
 
     public void EditProduct(string productName)
     {
         Product productToUpdate = SearchProduct(productName);
-        
+
         if (productToUpdate != null)
         {
             Console.WriteLine("What field do you wish to change?");
@@ -77,36 +77,35 @@ public class ProductRepository
 
             if (int.TryParse(input, out int option))
             {
-              
+
                 switch (option)
                 {
                     case 1:
                         Console.WriteLine("Write the new name for the product: ");
                         string newName = Console.ReadLine();
-                        productToUpdate.Name = newName;                           
+                        productToUpdate.Name = newName;
                         break;
                     case 2:
                         Console.WriteLine("Write the new price for the product: ");
                         string newPrice = Console.ReadLine();
-                        productToUpdate.Price = decimal.Parse(newPrice, System.Globalization.CultureInfo.InvariantCulture);                          
+                        productToUpdate.Price = decimal.Parse(newPrice, System.Globalization.CultureInfo.InvariantCulture);
                         break;
                     case 3:
                         Console.WriteLine("Write the new quantity for the product: ");
                         string newQuantity = Console.ReadLine();
-                        productToUpdate.Quantity = int.Parse(newQuantity, System.Globalization.CultureInfo.InvariantCulture);                            
+                        productToUpdate.Quantity = int.Parse(newQuantity, System.Globalization.CultureInfo.InvariantCulture);
                         break;
                     default:
                         Console.WriteLine("Invalid choice option");
                         return;
                 }
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
-            {
-                connection.Open();
+
+                _connection.Open();
 
                 string query = $"UPDATE Products SET Name = @Name, Price = @Price, Quantity = @Quantity WHERE ProductID = @ProductId";
 
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlCommand command = new SqlCommand(query, _connection))
                 {
                     command.Parameters.AddWithValue("Name", productToUpdate.Name);
                     command.Parameters.AddWithValue("Price", productToUpdate.Price);
@@ -115,66 +114,67 @@ public class ProductRepository
 
                     command.ExecuteNonQuery();
                 }
-            }
+                _connection.Close();
 
 
-            Console.WriteLine($"Product updated to --> Name: {productToUpdate.Name}, Price: {productToUpdate.Price}, Quantity: {productToUpdate.Quantity}");
+                Console.WriteLine($"Product updated to --> Name: {productToUpdate.Name}, Price: {productToUpdate.Price}, Quantity: {productToUpdate.Quantity}");
             }
             else Console.WriteLine("Invalid choice option");
 
 
-            
+
         }
         else Console.WriteLine("Product not found");
     }
 
     public void DeleteProduct(string productName)
     {
-        using (SqlConnection connection = new SqlConnection(ConnectionString))
+
+        _connection.Open();
+
+        string query = "DELETE FROM Products WHERE Name = @ProductName";
+
+        using (SqlCommand command = new SqlCommand(query, _connection))
         {
-            connection.Open();
+            command.CommandText = query;
 
-            string query = "DELETE FROM Products WHERE Name = @ProductName";
+            command.Parameters.AddWithValue("ProductName", productName);
 
-            using (SqlCommand command = new SqlCommand(query, connection))
-            {
-                command.CommandText = query;
-
-                command.Parameters.AddWithValue("ProductName", productName);
-
-                command.ExecuteNonQuery();
-            }
+            command.ExecuteNonQuery();
         }
+        _connection.Close();
+
+
     }
 
     public Product SearchProduct(string productName)
     {
         Product product = null;
-        using (SqlConnection connection = new SqlConnection(ConnectionString))
+
+        _connection.Open();
+
+        string query = $"SELECT * FROM Products WHERE Products.Name = @productName";
+
+        using (SqlCommand command = new SqlCommand(query, _connection))
         {
-            connection.Open();
+            command.Parameters.AddWithValue("@productName", productName);
 
-            string query = $"SELECT * FROM Products WHERE Products.Name = @productName";
-
-            using (SqlCommand command = new SqlCommand(query, connection))
+            using (SqlDataReader reader = command.ExecuteReader())
             {
-                command.Parameters.AddWithValue("@productName", productName);
-
-                using (SqlDataReader reader = command.ExecuteReader())
+                while (reader.Read())
                 {
-                    while (reader.Read())
-                    {
 
-                        int productId = (int)reader["ProductID"];
-                        string name = reader["Name"] != DBNull.Value ? (string)reader["Name"] : null;
-                        decimal price = (decimal)reader["Price"];
-                        int quantity = (int)reader["Quantity"];
+                    int productId = (int)reader["ProductID"];
+                    string name = reader["Name"] != DBNull.Value ? (string)reader["Name"] : null;
+                    decimal price = (decimal)reader["Price"];
+                    int quantity = (int)reader["Quantity"];
 
-                        product = new Product(productId, name, price, quantity);
-                    }
+                    product = new Product(productId, name, price, quantity);
                 }
             }
         }
+        _connection.Close();
+
         return product;
     }
 }

@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using System.Reflection;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Simple_Inventory_Managment_System;
 
@@ -19,7 +20,8 @@ namespace Simple_Inventory_Management_System
                 .Build();
                 
             var connectionString = configuration.GetConnectionString("SqlServerConnection");
-            ProductRepository productRepository = new ProductRepository(connectionString);
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            ProductRepository productRepository = new ProductRepository(sqlConnection);
 
             Inventory inventory = new Inventory(productRepository);
 
