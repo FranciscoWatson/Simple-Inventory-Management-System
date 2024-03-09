@@ -11,19 +11,23 @@ namespace Simple_Inventory_Managment_System
     public class Inventory
     {
         private readonly ProductRepository _productRepository;
+        public ProductPrintingService ProductPrintingService { get; set; }
 
-        public Inventory(ProductRepository productRepository)
+
+        public Inventory(ProductRepository productRepository, ProductPrintingService productPrintingService)
         {
             _productRepository = productRepository;
+            ProductPrintingService = productPrintingService;
+
         }
         public void AddProduct(Product product)
         {
             _productRepository.AddProduct(product);
         }
-        public List<Product> ViewAllProducts()
+        public void ViewAllProducts()
         {
-            return _productRepository.ViewAllProducts();
-            
+            var products = _productRepository.ViewAllProducts();
+            ProductPrintingService.PrintProducts(products);
         }
         public void EditProduct(string name)
         {
@@ -35,9 +39,10 @@ namespace Simple_Inventory_Managment_System
             _productRepository.DeleteProduct(productName);
         }
 
-        public Product SearchProduct(string productName)
+        public void SearchProduct(string productName)
         {
-            return _productRepository.SearchProduct(productName);
+            var product = _productRepository.SearchProduct(productName);
+            ProductPrintingService.PrintProduct(product);
         }
     }
 }

@@ -20,10 +20,16 @@ namespace Simple_Inventory_Management_System
                 .Build();
                 
             var connectionString = configuration.GetConnectionString("SqlServerConnection");
+
             SqlConnection sqlConnection = new SqlConnection(connectionString);
+
             ProductRepository productRepository = new ProductRepository(sqlConnection);
 
-            Inventory inventory = new Inventory(productRepository);
+            ProductPrintingService productPrintingService = new ProductPrintingService();
+
+            Inventory inventory = new Inventory(productRepository, productPrintingService);
+
+
 
             bool menu = true;
 
@@ -49,7 +55,7 @@ namespace Simple_Inventory_Management_System
                             break;
                         case 2:
                             Console.WriteLine("\n");
-                            ViewAllProducts(inventory);
+                            ViewAllProducts(inventory, productPrintingService);
                             break;
                         case 3:
                             EditProduct(inventory);
@@ -58,7 +64,7 @@ namespace Simple_Inventory_Management_System
                             DeleteProduct(inventory);
                             break;
                         case 5:
-                            SearchProduct(inventory);
+                            SearchProduct(inventory, productPrintingService);
                             break;
                         case 0:
                             menu = false;
@@ -75,11 +81,10 @@ namespace Simple_Inventory_Management_System
             Console.WriteLine("Exiting Program...");
         }
 
-        private static void SearchProduct(Inventory inventory)
+        private static void SearchProduct(Inventory inventory, ProductPrintingService productPrintingService)
         {
             string productName = GetProductNameFromUser();
-            var product = inventory.SearchProduct(productName);
-            Console.WriteLine($"ProductId: {product.ProductId}, Name: {product.Name}, Price: {product.Price}, Quantity: {product.Quantity}");
+            inventory.SearchProduct(productName);
         }
 
         private static void DeleteProduct(Inventory inventory)
@@ -100,13 +105,10 @@ namespace Simple_Inventory_Management_System
             return Console.ReadLine();
         }
 
-        private static void ViewAllProducts(Inventory inventory)
+        private static void ViewAllProducts(Inventory inventory, ProductPrintingService productPrintingService)
         {
-            foreach (var product in inventory.ViewAllProducts())
-            {
-                Console.WriteLine($"ProductId: {product.ProductId}, Name: {product.Name}, Price: {product.Price}, Quantity: {product.Quantity}");
-            }
 
+            inventory.ViewAllProducts();
         }
 
         private static void AddProduct(Inventory inventory) 
