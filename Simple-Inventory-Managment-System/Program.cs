@@ -77,25 +77,27 @@ namespace Simple_Inventory_Management_System
 
         private static void SearchProduct(Inventory inventory)
         {
-            Console.Write("Enter product name: ");
-            string productName = Console.ReadLine();
+            string productName = GetProductNameFromUser();
             var product = inventory.SearchProduct(productName);
             Console.WriteLine($"ProductId: {product.ProductId}, Name: {product.Name}, Price: {product.Price}, Quantity: {product.Quantity}");
-
         }
 
         private static void DeleteProduct(Inventory inventory)
         {
             Console.Write("Enter product name: ");
-            string productName = Console.ReadLine();
+            string productName = GetProductNameFromUser();
             inventory.DeleteProduct(productName);
         }
 
         private static void EditProduct(Inventory inventory)
         {
-            Console.Write("Enter product name: ");
-            string productName = Console.ReadLine();
+            string productName = GetProductNameFromUser();
             inventory.EditProduct(productName);
+        }
+        private static string GetProductNameFromUser()
+        {
+            Console.Write("Enter product name: ");
+            return Console.ReadLine();
         }
 
         private static void ViewAllProducts(Inventory inventory)
@@ -109,16 +111,32 @@ namespace Simple_Inventory_Management_System
 
         private static void AddProduct(Inventory inventory) 
         {
-            Console.Write("Enter product name: ");
-            string productName = Console.ReadLine();
-            Console.Write("Enter product price: ");
-            decimal productPrice = Convert.ToDecimal(Console.ReadLine());
-            Console.Write("Enter product quantity: ");
-            int productQuantity = Convert.ToInt32(Console.ReadLine());
-            Product newProduct = new Product(productName, productPrice, productQuantity);
+
+            Product newProduct = GetProductFromUserInput();
             inventory.AddProduct(newProduct);
         }
-        
+
+        private static Product GetProductFromUserInput()
+        {
+            Console.Write("Enter product name: ");
+            string productName = Console.ReadLine();
+
+            Console.Write("Enter product price: ");
+            decimal productPrice;
+            while (!decimal.TryParse(Console.ReadLine(), out productPrice))
+            {
+                Console.WriteLine("Invalid input. Please enter a valid decimal value for the price.");
+            }
+
+            Console.Write("Enter product quantity: ");
+            int productQuantity;
+            while (!int.TryParse(Console.ReadLine(), out productQuantity))
+            {
+                Console.WriteLine("Invalid input. Please enter a valid integer value for the quantity.");
+            }
+
+            return new Product(productName, productPrice, productQuantity);
+        }
     }
 }
 
