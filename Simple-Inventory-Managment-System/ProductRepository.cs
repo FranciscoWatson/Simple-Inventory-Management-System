@@ -14,7 +14,22 @@ public class ProductRepository
     }
     public void AddProduct(Product product)
     {
-        Products.Add(product);
+
+        using (SqlConnection connection = new SqlConnection(ConnectionString))
+        {
+            connection.Open();
+
+            string query = $"INSERT INTO Products VALUES(@Name, @Price, @Quantity)";
+
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("Name", product.Name);
+                command.Parameters.AddWithValue("Price", product.Price);
+                command.Parameters.AddWithValue("Quantity", product.Quantity);
+
+                command.ExecuteNonQuery();
+            }
+        }
     }
 
     public void ViewAllProducts()
