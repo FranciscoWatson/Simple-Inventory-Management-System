@@ -6,7 +6,7 @@ public class ProductRepository
 {
     public List<Product> Products = new List<Product>();
     private readonly string ConnectionString;
-
+    
     public ProductRepository(string connectionString)
     {
         ConnectionString = connectionString;
@@ -109,11 +109,33 @@ public class ProductRepository
 
     public void SearchProduct(string productName)
     {
-        Product product = Products.Find(product => product.Name == productName);
-        if (product != null)
+        Product product = null;
+        using (SqlConnection connection = new SqlConnection(ConnectionString))
         {
-            Console.WriteLine($"Name: {product.Name}, Price: {product.Price}, Quantity: {product.Quantity}");
+            connection.Open();
+
+            string query = $"SELECT * FROM Products WHERE Products.Name = @productName";
+
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@productName", productName);
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+
+                        int productId = (int)reader["ProductID"];
+                        string name = reader["Name"] != DBNull.Value ? (string)reader["Name"] : null;
+                        decimal price = (decimal)reader["Price"];
+                        int quantity = (int)reader["Quantity"];
+
+                        product = new Product(productId, name, price, quantity);
+                    }
+                }
+            }
         }
-        else Console.WriteLine("Product not found");
+        Console.WriteLine($"ProductId: {product.ProductId}, Name: {product.Name}, Price: {product.Price}, Quantity: {product.Quantity}");
+
     }
 }
