@@ -47,7 +47,7 @@ namespace Simple_Inventory_Management_System
                             break;
                         case 2:
                             Console.WriteLine("\n");
-                            inventory.ViewAllProducts();
+                            ViewAllProducts(inventory);
                             break;
                         case 3:
                             EditProduct(inventory);
@@ -77,7 +77,9 @@ namespace Simple_Inventory_Management_System
         {
             Console.Write("Enter product name: ");
             string productName = Console.ReadLine();
-            inventory.SearchProduct(productName);
+            var product = inventory.SearchProduct(productName);
+            Console.WriteLine($"ProductId: {product.ProductId}, Name: {product.Name}, Price: {product.Price}, Quantity: {product.Quantity}");
+
         }
 
         private static void DeleteProduct(Inventory inventory)
@@ -94,6 +96,15 @@ namespace Simple_Inventory_Management_System
             inventory.EditProduct(productName);
         }
 
+        private static void ViewAllProducts(Inventory inventory)
+        {
+            foreach (var product in inventory.ViewAllProducts())
+            {
+                Console.WriteLine($"ProductId: {product.ProductId}, Name: {product.Name}, Price: {product.Price}, Quantity: {product.Quantity}");
+            }
+
+        }
+
         private static void AddProduct(Inventory inventory) 
         {
             Console.Write("Enter product name: ");
@@ -105,6 +116,7 @@ namespace Simple_Inventory_Management_System
             Product newProduct = new Product(productName, productPrice, productQuantity);
             inventory.AddProduct(newProduct);
         }
+        
     }
 }
 

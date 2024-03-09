@@ -20,9 +20,9 @@ namespace Simple_Inventory_Managment_System
         {
             _productRepository.AddProduct(product);
         }
-        public void ViewAllProducts()
+        public List<Product> ViewAllProducts()
         {
-            _productRepository.ViewAllProducts();
+            return _productRepository.ViewAllProducts();
             
         }
         public void EditProduct(string name)
@@ -35,9 +35,9 @@ namespace Simple_Inventory_Managment_System
             _productRepository.DeleteProduct(productName);
         }
 
-        public void SearchProduct(string productName)
+        public Product SearchProduct(string productName)
         {
-            _productRepository.SearchProduct(productName);
+            return _productRepository.SearchProduct(productName);
         }
     }
 }

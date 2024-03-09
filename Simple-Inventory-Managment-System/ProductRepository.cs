@@ -5,7 +5,6 @@ namespace Simple_Inventory_Managment_System;
 
 public class ProductRepository
 {
-    public List<Product> Products = new List<Product>();
     private readonly string ConnectionString;
     
     public ProductRepository(string connectionString)
@@ -32,7 +31,7 @@ public class ProductRepository
         }
     }
 
-    public void ViewAllProducts()
+    public List<Product> ViewAllProducts()
     {
         List<Product> products = new List<Product>();
         using (SqlConnection connection = new SqlConnection(ConnectionString))
@@ -60,42 +59,15 @@ public class ProductRepository
             }
         }
         
-        foreach (var product in products)
-        {
-            Console.WriteLine($"ProductId: {product.ProductId}, Name: {product.Name}, Price: {product.Price}, Quantity: {product.Quantity}");
-        }
+        return products;
     }
         
     
 
     public void EditProduct(string productName)
     {
-        Product productToUpdate = null;
-        using (SqlConnection connection = new SqlConnection(ConnectionString))
-        {
-            connection.Open();
-
-            string query = $"SELECT * FROM Products WHERE Products.Name = @productName";
-
-            using (SqlCommand command = new SqlCommand(query, connection))
-            {
-                command.Parameters.AddWithValue("@productName", productName);
-
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-
-                        int productId = (int)reader["ProductID"];
-                        string name = reader["Name"] != DBNull.Value ? (string)reader["Name"] : null;
-                        decimal price = (decimal)reader["Price"];
-                        int quantity = (int)reader["Quantity"];
-
-                        productToUpdate = new Product(productId, name, price, quantity);
-                    }
-                }
-            }
-        }
+        Product productToUpdate = SearchProduct(productName);
+        
         if (productToUpdate != null)
         {
             Console.WriteLine("What field do you wish to change?");
@@ -146,8 +118,6 @@ public class ProductRepository
             }
 
 
-
-
             Console.WriteLine($"Product updated to --> Name: {productToUpdate.Name}, Price: {productToUpdate.Price}, Quantity: {productToUpdate.Quantity}");
             }
             else Console.WriteLine("Invalid choice option");
@@ -177,7 +147,7 @@ public class ProductRepository
         }
     }
 
-    public void SearchProduct(string productName)
+    public Product SearchProduct(string productName)
     {
         Product product = null;
         using (SqlConnection connection = new SqlConnection(ConnectionString))
@@ -205,8 +175,6 @@ public class ProductRepository
                 }
             }
         }
-
-        Console.WriteLine($"ProductId: {product.ProductId}, Name: {product.Name}, Price: {product.Price}, Quantity: {product.Quantity}");
-
+        return product;
     }
 }
