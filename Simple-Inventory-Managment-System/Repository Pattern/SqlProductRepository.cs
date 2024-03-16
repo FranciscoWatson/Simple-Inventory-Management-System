@@ -48,7 +48,7 @@ public class SqlProductRepository : IProductRepository
                 while (reader.Read())
                 {
 
-                    int productId = (int)reader["ProductID"];
+                    string productId = reader["ProductID"].ToString();
                     string name = reader["Name"] != DBNull.Value ? (string)reader["Name"] : null;
                     decimal price = (decimal)reader["Price"];
                     int quantity = (int)reader["Quantity"];
@@ -166,7 +166,7 @@ public class SqlProductRepository : IProductRepository
                 while (reader.Read())
                 {
 
-                    int productId = (int)reader["ProductID"];
+                    string productId = reader["ProductID"].ToString();
                     string name = reader["Name"] != DBNull.Value ? (string)reader["Name"] : null;
                     decimal price = (decimal)reader["Price"];
                     int quantity = (int)reader["Quantity"];
