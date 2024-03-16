@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Simple_Inventory_Managment_System.Repository_Pattern;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
@@ -10,11 +11,11 @@ namespace Simple_Inventory_Managment_System
 {
     public class Inventory
     {
-        private readonly ProductRepository _productRepository;
+        private readonly IProductRepository _productRepository;
         public ProductPrintingService ProductPrintingService { get; set; }
 
 
-        public Inventory(ProductRepository productRepository, ProductPrintingService productPrintingService)
+        public Inventory(IProductRepository productRepository, ProductPrintingService productPrintingService)
         {
             _productRepository = productRepository;
             ProductPrintingService = productPrintingService;

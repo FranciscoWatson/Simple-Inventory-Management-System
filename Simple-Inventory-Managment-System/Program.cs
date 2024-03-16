@@ -23,7 +23,7 @@ namespace Simple_Inventory_Management_System
 
             SqlConnection sqlConnection = new SqlConnection(connectionString);
 
-            ProductRepository productRepository = new ProductRepository(sqlConnection);
+            SqlProductRepository productRepository = new SqlProductRepository(sqlConnection);
 
             ProductPrintingService productPrintingService = new ProductPrintingService();
 
