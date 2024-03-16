@@ -5,11 +5,11 @@ using System.Data.Common;
 
 namespace Simple_Inventory_Managment_System;
 
-public class ProductRepository : IProductRepository
+public class SqlProductRepository : IProductRepository
 {
     private readonly SqlConnection _connection;
 
-    public ProductRepository(SqlConnection connection)
+    public SqlProductRepository(SqlConnection connection)
     {
         _connection = connection;
     }

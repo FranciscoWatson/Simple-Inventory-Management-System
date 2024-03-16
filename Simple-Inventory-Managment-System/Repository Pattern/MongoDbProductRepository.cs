@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +10,14 @@ namespace Simple_Inventory_Managment_System.Repository_Pattern
 {
     public class MongoDBProductRepository : IProductRepository
     {
+
+        private readonly IMongoDatabase _connection;
+
+        public MongoDBProductRepository(IMongoDatabase connection)
+        {
+            _connection = connection;
+        }
+
         public void AddProduct(Product product)
         {
             throw new NotImplementedException();

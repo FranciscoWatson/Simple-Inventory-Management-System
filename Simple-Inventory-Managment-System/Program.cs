@@ -4,6 +4,8 @@ using System.Reflection;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Simple_Inventory_Managment_System;
+using Simple_Inventory_Managment_System.Repository_Pattern;
+using Simple_Inventory_Managment_System.Simple_Factory;
 
 
 
@@ -19,11 +21,7 @@ namespace Simple_Inventory_Management_System
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
 
-            var connectionString = configuration.GetConnectionString("SqlServerConnection");
-
-            SqlConnection sqlConnection = new SqlConnection(connectionString);
-
-            SqlProductRepository productRepository = new SqlProductRepository(sqlConnection);
+            IProductRepository productRepository = ProductRepositoryFactory.CreateProductRepository(configuration);
 
             ProductPrintingService productPrintingService = new ProductPrintingService();
 
