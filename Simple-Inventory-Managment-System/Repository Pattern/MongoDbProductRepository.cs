@@ -11,11 +11,10 @@ namespace Simple_Inventory_Managment_System.Repository_Pattern
     public class MongoDBProductRepository : IProductRepository
     {
 
-        private readonly IMongoDatabase _connection;
-
+        private readonly IMongoCollection<Product> ProductsCollection;
         public MongoDBProductRepository(IMongoDatabase connection)
         {
-            _connection = connection;
+            ProductsCollection = connection.GetCollection<Product>("Products");
         }
 
         public void AddProduct(Product product)
@@ -40,7 +39,8 @@ namespace Simple_Inventory_Managment_System.Repository_Pattern
 
         public List<Product> ViewAllProducts()
         {
-            throw new NotImplementedException();
+            var filter = Builders<Product>.Filter.Empty;
+            return ProductsCollection.Find(filter).ToList();
         }
     }
 }
