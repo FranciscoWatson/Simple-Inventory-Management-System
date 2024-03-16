@@ -25,7 +25,8 @@ namespace Simple_Inventory_Managment_System.Repository_Pattern
 
         public void DeleteProduct(string productName)
         {
-            throw new NotImplementedException();
+            var filter = Builders<Product>.Filter.Eq(p => p.Name, productName);
+            ProductsCollection.DeleteOne(filter);
         }
 
         public void EditProduct(string productName, Product updatedProduct)
