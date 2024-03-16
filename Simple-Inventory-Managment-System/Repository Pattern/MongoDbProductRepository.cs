@@ -19,7 +19,7 @@ namespace Simple_Inventory_Managment_System.Repository_Pattern
 
         public void AddProduct(Product product)
         {
-            throw new NotImplementedException();
+            ProductsCollection.InsertOne(product);
         }
 
         public void DeleteProduct(string productName)
