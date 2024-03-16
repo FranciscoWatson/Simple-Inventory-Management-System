@@ -34,7 +34,10 @@ namespace Simple_Inventory_Managment_System.Repository_Pattern
 
         public Product SearchProduct(string productName)
         {
-            throw new NotImplementedException();
+            var filter = Builders<Product>.Filter.Eq(p => p.Name, productName);
+            var product = ProductsCollection.Find(filter).FirstOrDefault();
+            return product;
+
         }
 
         public List<Product> ViewAllProducts()
