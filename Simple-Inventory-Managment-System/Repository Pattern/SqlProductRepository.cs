@@ -66,67 +66,25 @@ public class SqlProductRepository : IProductRepository
 
 
 
-    public void EditProduct(string productName)
+    public void EditProduct(string productName, Product updatedProduct)
     {
-        Product productToUpdate = SearchProduct(productName);
+        _connection.Open();
 
-        if (productToUpdate != null)
+        string query = $"UPDATE Products SET Name = @Name, Price = @Price, Quantity = @Quantity WHERE ProductID = @ProductId";
+
+        using (SqlCommand command = new SqlCommand(query, _connection))
         {
-            Console.WriteLine("What field do you wish to change?");
-            Console.WriteLine("1- Name\n2- Price\n3- Quantity \n");
-            Console.Write("Enter an option (1-3): ");
-            string input = Console.ReadLine();
+            command.Parameters.AddWithValue("Name", updatedProduct.Name);
+            command.Parameters.AddWithValue("Price", updatedProduct.Price);
+            command.Parameters.AddWithValue("Quantity", updatedProduct.Quantity);
+            command.Parameters.AddWithValue("ProductId", updatedProduct.ProductId);
 
-            if (int.TryParse(input, out int option))
-            {
-
-                switch (option)
-                {
-                    case 1:
-                        Console.WriteLine("Write the new name for the product: ");
-                        string newName = Console.ReadLine();
-                        productToUpdate.Name = newName;
-                        break;
-                    case 2:
-                        Console.WriteLine("Write the new price for the product: ");
-                        string newPrice = Console.ReadLine();
-                        productToUpdate.Price = decimal.Parse(newPrice, System.Globalization.CultureInfo.InvariantCulture);
-                        break;
-                    case 3:
-                        Console.WriteLine("Write the new quantity for the product: ");
-                        string newQuantity = Console.ReadLine();
-                        productToUpdate.Quantity = int.Parse(newQuantity, System.Globalization.CultureInfo.InvariantCulture);
-                        break;
-                    default:
-                        Console.WriteLine("Invalid choice option");
-                        return;
-                }
-
-
-                _connection.Open();
-
-                string query = $"UPDATE Products SET Name = @Name, Price = @Price, Quantity = @Quantity WHERE ProductID = @ProductId";
-
-                using (SqlCommand command = new SqlCommand(query, _connection))
-                {
-                    command.Parameters.AddWithValue("Name", productToUpdate.Name);
-                    command.Parameters.AddWithValue("Price", productToUpdate.Price);
-                    command.Parameters.AddWithValue("Quantity", productToUpdate.Quantity);
-                    command.Parameters.AddWithValue("ProductId", productToUpdate.ProductId);
-
-                    command.ExecuteNonQuery();
-                }
-                _connection.Close();
-
-
-                Console.WriteLine($"Product updated to --> Name: {productToUpdate.Name}, Price: {productToUpdate.Price}, Quantity: {productToUpdate.Quantity}");
-            }
-            else Console.WriteLine("Invalid choice option");
-
-
-
+            command.ExecuteNonQuery();
         }
-        else Console.WriteLine("Product not found");
+        _connection.Close();
+
+        Console.WriteLine($"Product updated to --> Name: {updatedProduct.Name}, Price: {updatedProduct.Price}, Quantity: {updatedProduct.Quantity}");
+            
     }
 
     public void DeleteProduct(string productName)

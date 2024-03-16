@@ -10,7 +10,7 @@ namespace Simple_Inventory_Managment_System.Repository_Pattern
     {
         void AddProduct(Product product);
         void DeleteProduct(string productName);
-        void EditProduct(string productName);
+        void EditProduct(string productName, Product productToUpdate);
         Product SearchProduct(string productName);
         List<Product> ViewAllProducts();
     }
