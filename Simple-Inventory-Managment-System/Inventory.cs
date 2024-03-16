@@ -1,13 +1,6 @@
-﻿using MongoDB.Driver;
+﻿using Simple_Inventory_Managment_System.Models;
 using Simple_Inventory_Managment_System.Repository_Pattern;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using static Azure.Core.HttpHeader;
+using Simple_Inventory_Managment_System.Services;
 
 namespace Simple_Inventory_Managment_System
 {

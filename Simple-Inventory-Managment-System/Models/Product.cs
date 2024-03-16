@@ -1,12 +1,8 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Simple_Inventory_Managment_System
+
+namespace Simple_Inventory_Managment_System.Models
 {
     public class Product
     {

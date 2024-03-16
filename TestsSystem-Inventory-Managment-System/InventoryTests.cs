@@ -1,5 +1,6 @@
 
 using Simple_Inventory_Managment_System;
+using Simple_Inventory_Managment_System.Models;
 
 namespace TestsSystem_Inventory_Managment_System
 {

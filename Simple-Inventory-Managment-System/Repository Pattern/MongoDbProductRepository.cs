@@ -1,11 +1,6 @@
-﻿using Microsoft.Data.SqlClient;
-using Microsoft.VisualBasic;
-using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MongoDB.Driver;
+using Simple_Inventory_Managment_System.Models;
+
 
 namespace Simple_Inventory_Managment_System.Repository_Pattern
 {

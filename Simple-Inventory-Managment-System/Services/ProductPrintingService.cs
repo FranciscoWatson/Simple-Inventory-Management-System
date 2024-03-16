@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Simple_Inventory_Managment_System.Models;
 
-namespace Simple_Inventory_Managment_System
+namespace Simple_Inventory_Managment_System.Services
 {
     public class ProductPrintingService
     {

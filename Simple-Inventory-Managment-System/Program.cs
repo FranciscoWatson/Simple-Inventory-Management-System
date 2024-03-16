@@ -1,10 +1,8 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using System.Reflection;
-using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Simple_Inventory_Managment_System;
+using Simple_Inventory_Managment_System.Models;
 using Simple_Inventory_Managment_System.Repository_Pattern;
+using Simple_Inventory_Managment_System.Services;
 using Simple_Inventory_Managment_System.Simple_Factory;
 
 
