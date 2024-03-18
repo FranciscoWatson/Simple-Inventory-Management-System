@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
 
-namespace Simple_Inventory_Managment_System
+
+namespace Simple_Inventory_Managment_System.Models
 {
     public class Product
     {
-        public int ProductId { get; set; }
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string ProductId { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
@@ -18,7 +18,7 @@ namespace Simple_Inventory_Managment_System
             Price = price;
             Quantity = quantityInStock;
         }
-        public Product(int productId, string name, decimal price, int quantity)
+        public Product(string productId, string name, decimal price, int quantity)
         {
             ProductId = productId;
             Name = name;
